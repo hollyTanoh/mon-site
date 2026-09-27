@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devine le Nombre</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .info {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .game-area {
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    .message {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      min-height: 20px;
+    }
+
+    .correct {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .incorrect {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .hint {
+      background: #cfe2ff;
+      color: #084298;
+      border: 1px solid #b6d4fe;
+    }
+
+    .stats {
+      color: #666;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .reset-btn {
+      background: #28a745;
+      margin-top: 10px;
+    }
+
+    .reset-btn:hover {
+      background: #218838;
+    }
+
+    .emoji {
+      font-size: 40px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Devine le Nombre</h1>
+    <p class="info">Je pense à un nombre entre 1 et 100. À toi de le deviner !</p>
+
+    <div class="game-area">
+      <input 
+        type="number" 
+        id="guess" 
+        min="1" 
+        max="100" 
+        placeholder="Entre un nombre..."
+      />
+      <button onclick="checkGuess()">Vérifier</button>
+      <button class="reset-btn" onclick="resetGame()">Nouveau Jeu</button>
+    </div>
+
+    <div class="message" id="message"></div>
+    <div class="emoji" id="emoji"></div>
+    <div class="stats">
+      <p>Tentatives : <strong id="attempts">0</strong></p>
+    </div>
+  </div>
+
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guess = parseInt(document.getElementById('guess').value);
+      const messageDiv = document.getElementById('message');
+      const emojiDiv = document.getElementById('emoji');
+
+      if (isNaN(guess) || guess < 1 || guess > 100) {
+        messageDiv.textContent = '⚠️ Entre un nombre entre 1 et 100 !';
+        messageDiv.className = 'message hint';
+        return;
+      }
+
+      attempts++;
+      document.getElementById('attempts').textContent = attempts;
+
+      if (guess === secretNumber) {
+        messageDiv.textContent = `🎉 Bravo ! Tu as trouvé ${secretNumber} en ${attempts} tentative${attempts > 1 ? 's' : ''} !`;
+        messageDiv.className = 'message correct';
+        emojiDiv.textContent = '🏆';
+        document.getElementById('guess').disabled = true;
+      } else if (guess < secretNumber) {
+        messageDiv.textContent = '📈 C\'est plus grand !';
+        messageDiv.className = 'message incorrect';
+        emojiDiv.textContent = '🤔';
+      } else {
+        messageDiv.textContent = '📉 C\'est plus petit !';
+        messageDiv.className = 'message incorrect';
+        emojiDiv.textContent = '🤔';
+      }
+
+      document.getElementById('guess').value = '';
+      document.getElementById('guess').focus();
+    }
+
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById('guess').value = '';
+      document.getElementById('guess').disabled = false;
+      document.getElementById('message').textContent = '';
+      document.getElementById('message').className = 'message';
+      document.getElementById('emoji').textContent = '';
+      document.getElementById('attempts').textContent = '0';
+      document.getElementById('guess').focus();
+    }
+
+    // Permet de jouer en appuyant sur Entrée
+    document.getElementById('guess').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkGuess();
+    });
+
+    document.getElementById('guess').focus();
+  </script>
+</body>
+</html>
