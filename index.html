@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #message {
+      margin-top: 20px;
+      color: #333;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Bonjour !</h1>
+    <button onclick="afficherMessage()">Clique-moi</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    function afficherMessage() {
+      document.getElementById("message").textContent = "Tu as cliqué sur le bouton !";
+    }
+  </script>
+</body>
+</html>
